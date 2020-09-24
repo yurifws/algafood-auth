@@ -29,19 +29,25 @@ public class AuthorizationServerConfig  extends AuthorizationServerConfigurerAda
 		clients
 			.inMemory()
 				.withClient("algafood-web")
-					.secret(passwordEncoder.encode("web123"))
-					.authorizedGrantTypes("password", "refresh_token")
-					.scopes("write","read")
-					.accessTokenValiditySeconds(60 * 60 * 6) // 6 horas
-					.refreshTokenValiditySeconds(60 * 24 * 60 * 60) // 60 dias
+				.secret(passwordEncoder.encode("web123"))
+				.authorizedGrantTypes("password", "refresh_token")
+				.scopes("write","read")
+				.accessTokenValiditySeconds(60 * 60 * 6) // 6 horas
+				.refreshTokenValiditySeconds(60 * 24 * 60 * 60) // 60 dias
 			.and()
 				.withClient("faturamento")
-					.secret(passwordEncoder.encode("faturamento123"))
-					.authorizedGrantTypes("client_credentials")
-					.scopes("write","read")
+				.secret(passwordEncoder.encode("faturamento123"))
+				.authorizedGrantTypes("client_credentials")
+				.scopes("write","read")
+			.and()
+				.withClient("foodanalytics")
+				.secret(passwordEncoder.encode("food123"))
+				.authorizedGrantTypes("authorization_code")
+				.scopes("write","read")
+				.redirectUris("http://aplicacao-cliente")
 			.and()
 				.withClient("checktoken")
-					.secret(passwordEncoder.encode("check123")); 
+				.secret(passwordEncoder.encode("check123")); 
 	}
 	
 	@Override
