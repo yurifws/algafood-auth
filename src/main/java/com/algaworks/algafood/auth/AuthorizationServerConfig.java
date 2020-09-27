@@ -44,7 +44,13 @@ public class AuthorizationServerConfig  extends AuthorizationServerConfigurerAda
 				.secret(passwordEncoder.encode("food123"))
 				.authorizedGrantTypes("authorization_code")
 				.scopes("write","read")
-				.redirectUris("http://127.0.0.1:5500/algafood-js/") // client js
+				//.redirectUris("http://127.0.0.1:5500/algafood-js/") // client js
+				.redirectUris("http://aplicacao-cliente/")
+			.and()
+				.withClient("webadmin")
+				.authorizedGrantTypes("implicit")
+				.scopes("write","read")
+				.redirectUris("http://aplicacao-cliente/")
 			.and()
 				.withClient("checktoken")
 				.secret(passwordEncoder.encode("check123")); 
