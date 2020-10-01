@@ -45,11 +45,12 @@ public class AuthorizationServerConfig  extends AuthorizationServerConfigurerAda
 				.scopes("write","read")
 			.and()
 				.withClient("foodanalytics")
-				.secret(passwordEncoder.encode("food123"))
+				//.secret(passwordEncoder.encode("food123"))
+				.secret(passwordEncoder.encode("")) // sem autenticar cliente, somente com pkce
 				.authorizedGrantTypes("authorization_code")
 				.scopes("write","read")
-				//.redirectUris("http://127.0.0.1:5500/algafood-js/") // client js
-				.redirectUris("http://aplicacao-cliente/")
+				.redirectUris("http://127.0.0.1:5500/algafood-js/") // client js
+				//.redirectUris("http://aplicacao-cliente/")
 			.and()
 				.withClient("webadmin")
 				.authorizedGrantTypes("implicit")
@@ -63,8 +64,8 @@ public class AuthorizationServerConfig  extends AuthorizationServerConfigurerAda
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 		security
-			.checkTokenAccess("isAuthenticated()");
-//			.allowFormAuthenticationForClients();
+			.checkTokenAccess("isAuthenticated()")
+			.allowFormAuthenticationForClients();
 //		security.checkTokenAccess("permiteAll()");
 	}
 	
