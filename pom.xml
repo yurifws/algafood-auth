@@ -18,6 +18,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<spring-security-oauth2.version>2.3.7.RELEASE</spring-security-oauth2.version>
+		<spring-security-jwt.version>1.0.11.RELEASE</spring-security-jwt.version>
 	</properties>
 
 	<dependencies>
@@ -63,6 +64,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-jwt</artifactId>
+			<version>${spring-security-jwt.version}</version>
 		</dependency>
 		
 	</dependencies>
