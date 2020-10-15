@@ -74,9 +74,11 @@ public class AuthorizationServerConfig  extends AuthorizationServerConfigurerAda
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 		security
-			.checkTokenAccess("isAuthenticated()")
+		    .checkTokenAccess("permitAll()")
+			//.checkTokenAccess("isAuthenticated()")
+			.tokenKeyAccess("permitAll()") // permite gerar token key publica
 			.allowFormAuthenticationForClients();
-//		security.checkTokenAccess("permiteAll()");
+//		security.checkTokenAccess("permitAll()");
 	}
 	
 	@Override
