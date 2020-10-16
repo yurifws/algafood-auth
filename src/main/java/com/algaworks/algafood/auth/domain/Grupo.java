@@ -13,37 +13,28 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "tb_usuario")
-public class Usuario {
+@Table(name = "tb_grupo")
+public class Grupo {
 	
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(nullable = false)
 	private String nome;
 	
-	@Column(nullable = false)
-	private String email;
-	
-	@Column(nullable = false)
-	private String senha;
-	
-	@JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "tb_usuario_grupo",
-		joinColumns = @JoinColumn(name = "usuario_id"),
-		inverseJoinColumns = @JoinColumn(name = "grupo_id"))
-	private Set<Grupo> grupos = new HashSet<>(0); 
-
+	@JoinTable(name = "tb_grupo_permissao",
+		joinColumns = @JoinColumn(name = "grupo_id"),
+		inverseJoinColumns = @JoinColumn(name = "permissao_id"))
+	private Set<Permissao> permissoes= new HashSet<>(0);
+	
 	
 }
