@@ -28,6 +28,9 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 @EnableAuthorizationServer
 public class AuthorizationServerConfig  extends AuthorizationServerConfigurerAdapter{
 	
+//	@Autowired
+//	private PasswordEncoder passwordEncoder;
+	
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
@@ -45,7 +48,10 @@ public class AuthorizationServerConfig  extends AuthorizationServerConfigurerAda
 	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+//		Client Details em banco - oauth_client_details
 		clients.jdbc(dataSource);
+		
+//		Client Details em memoria
 //			.inMemory()
 //				.withClient("algafood-web")
 //				.secret(passwordEncoder.encode("web123"))
