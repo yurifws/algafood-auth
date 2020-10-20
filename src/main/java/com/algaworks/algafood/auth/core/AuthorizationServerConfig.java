@@ -2,13 +2,14 @@ package com.algaworks.algafood.auth.core;
 
 import java.util.Arrays;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -28,9 +29,6 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 public class AuthorizationServerConfig  extends AuthorizationServerConfigurerAdapter{
 	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	@Autowired
 	private AuthenticationManager authenticationManager;
 	
 	@Autowired
@@ -42,37 +40,40 @@ public class AuthorizationServerConfig  extends AuthorizationServerConfigurerAda
 	@Autowired
 	private JwtKeyStoreProperties jwtKeyStoreProperties;
 	
+	@Autowired
+	private DataSource dataSource;
+	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients
-			.inMemory()
-				.withClient("algafood-web")
-				.secret(passwordEncoder.encode("web123"))
-				.authorizedGrantTypes("password", "refresh_token")
-				.scopes("write","read")
-				.accessTokenValiditySeconds(60 * 60 * 6) // 6 horas
-				.refreshTokenValiditySeconds(60 * 24 * 60 * 60) // 60 dias
-			.and()
-				.withClient("faturamento")
-				.secret(passwordEncoder.encode("faturamento123"))
-				.authorizedGrantTypes("client_credentials")
-				.scopes("write","read")
-			.and()
-				.withClient("foodanalytics")
-				//.secret(passwordEncoder.encode("food123"))
-				.secret(passwordEncoder.encode("")) // sem autenticar cliente, somente com pkce
-				.authorizedGrantTypes("authorization_code")
-				.scopes("write","read")
-				.redirectUris("http://127.0.0.1:5500/algafood-js/") // client js
-				//.redirectUris("http://aplicacao-cliente/")
-			.and()
-				.withClient("webadmin")
-				.authorizedGrantTypes("implicit")
-				.scopes("write","read")
-				.redirectUris("http://aplicacao-cliente/")
-			.and()
-				.withClient("checktoken")
-				.secret(passwordEncoder.encode("check123")); 
+		clients.jdbc(dataSource);
+//			.inMemory()
+//				.withClient("algafood-web")
+//				.secret(passwordEncoder.encode("web123"))
+//				.authorizedGrantTypes("password", "refresh_token")
+//				.scopes("WRITE","READ")
+//				.accessTokenValiditySeconds(60 * 60 * 6) // 6 horas
+//				.refreshTokenValiditySeconds(60 * 24 * 60 * 60) // 60 dias
+//			.and()
+//				.withClient("faturamento")
+//				.secret(passwordEncoder.encode("faturamento123"))
+//				.authorizedGrantTypes("client_credentials")
+//				.scopes("WRITE","READ")
+//			.and()
+//				.withClient("foodanalytics")
+//				//.secret(passwordEncoder.encode("food123"))
+//				.secret(passwordEncoder.encode("")) // sem autenticar cliente, somente com pkce
+//				.authorizedGrantTypes("authorization_code")
+//				.scopes("WRITE","READ")
+//				.redirectUris("http://127.0.0.1:5500/algafood-js/") // client js
+//				//.redirectUris("http://aplicacao-cliente/")
+//			.and()
+//				.withClient("webadmin")
+//				.authorizedGrantTypes("implicit")
+//				.scopes("WRITE","READ")
+//				.redirectUris("http://aplicacao-cliente/")
+//			.and()
+//				.withClient("checktoken")
+//				.secret(passwordEncoder.encode("check123")); 
 	}
 	
 	@Override
